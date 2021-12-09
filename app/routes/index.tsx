@@ -1,5 +1,8 @@
 import type { MetaFunction, LoaderFunction } from 'remix'
 import { useLoaderData, json, Link } from 'remix'
+import { getLoggedInUser } from '~/sessions.server'
+import { supabase } from '~/supabase'
+import { useUser } from '~/hooks/useUser'
 
 type IndexData = {
   resources: Array<{ name: string; url: string }>
@@ -10,7 +13,7 @@ type IndexData = {
 // you can connect to a database or run any server side code you want right next
 // to the component that renders it.
 // https://remix.run/api/conventions#loader
-export let loader: LoaderFunction = () => {
+export let loader: LoaderFunction = async ({ request }) => {
   let data: IndexData = {
     resources: [
       {
@@ -46,6 +49,9 @@ export let loader: LoaderFunction = () => {
     ],
   }
 
+  const user = await getLoggedInUser(request)
+  return user
+
   // https://remix.run/api/remix#json
   return json(data)
 }
@@ -60,10 +66,13 @@ export let meta: MetaFunction = () => {
 
 // https://remix.run/guides/routing#index-routes
 export default function Index() {
-  let data = useLoaderData<IndexData>()
+  const { user, session } = useUser()
+  const { id: userId } = useLoaderData() || {}
+
+  console.log("user", user, session)
 
   return (
-    <div className="remix__page">
+    <div className="remix__page text-xl">
       <main>
         <h2>Welcome to Remix!</h2>
         <p>We're stoked that you're here. 🥳</p>
@@ -80,25 +89,43 @@ export default function Index() {
         </p>
       </main>
       <aside>
-        <h2>Demos In This App</h2>
-        <ul>
-          {data.demos.map(demo => (
-            <li key={demo.to} className="remix__page__resource">
-              <Link to={demo.to} prefetch="intent">
-                {demo.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <h2>Resources</h2>
-        <ul>
-          {data.resources.map(resource => (
-            <li key={resource.url} className="remix__page__resource">
-              <a href={resource.url}>{resource.name}</a>
-            </li>
-          ))}
-        </ul>
+        {/*<h2>Demos In This App</h2>*/}
+        {/*<ul>*/}
+        {/*  {data.demos.map(demo => (*/}
+        {/*    <li key={demo.to} className="remix__page__resource">*/}
+        {/*      <Link to={demo.to} prefetch="intent">*/}
+        {/*        {demo.name}*/}
+        {/*      </Link>*/}
+        {/*    </li>*/}
+        {/*  ))}*/}
+        {/*</ul>*/}
+        {/*<h2>Resources</h2>*/}
+        {/*<ul>*/}
+        {/*  {data.resources.map(resource => (*/}
+        {/*    <li key={resource.url} className="remix__page__resource">*/}
+        {/*      <a href={resource.url}>{resource.name}</a>*/}
+        {/*    </li>*/}
+        {/*  ))}*/}
+        {/*</ul>*/}
       </aside>
+      <div>
+        <h1>Remix + Supabase Auth Starter</h1>
+
+        {user && <p>Your user id from client is: {user.id}</p>}
+
+        {userId && <p>Your user from server is: {userId}</p>}
+
+        {user && (
+          <button onClick={() => supabase.auth.signOut()}>logout</button>
+        )}
+
+        {!user && (
+          <p>
+            You're not logged in yet, go <Link to="signup">sign up</Link> or{' '}
+            <Link to="login">log in</Link>!
+          </p>
+        )}
+      </div>
     </div>
   )
 }
