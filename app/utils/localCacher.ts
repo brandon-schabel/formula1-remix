@@ -23,6 +23,7 @@ const getFileName = (url: string) => {
 
 export const localCacher = async (url: string) => {
   const file = getFileName(url)
+  console.log('reading cache file...', file)
 
   const readFile = await fsPromise.readFile(file)
 
@@ -33,7 +34,7 @@ export const localCacher = async (url: string) => {
 export const writeCacheFile = (url: string, data: any) => {
   const file = getFileName(url)
 
-  console.log('writing file...', file)
+  console.log('writing cache file...', file)
   if (data) {
     fs.writeFile(file, JSON.stringify(data), function (err) {
       if (err) throw err
