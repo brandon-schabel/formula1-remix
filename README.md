@@ -1,4 +1,5 @@
 # Welcome to Remix!
+A project built with Remix, Supabase, Tailwind CSS and Formula Ergast API 
 
 - [Remix Docs](https://remix.run/docs)
 
