@@ -7,25 +7,20 @@ export let loader: LoaderFunction = async ({ params, request }) => {
   const { year } = params
 
   const isDev = process.env.NODE_ENV === 'development'
+  const seasonData = await getSeasonInfo(year || 2021)
+  const typedSeasonData = (await seasonData) as unknown as SeasonInfoData
 
-  // if (isDev) {
-  //   try {
-  //     const seasonData = await getSeasonInfo(year || 2021)
-  //     console.log('season data', seasonData)
-  //     const typedSeasonData = (await seasonData) as unknown as SeasonInfoData
-  //
-  //     const races = typedSeasonData?.MRData?.RaceTable?.Races || []
-  //
-  //     writeTackIds(races)
-  //   } catch (e) {
-  //     console.error(e)
-  //   }
-  // }
+  if (isDev) {
+    try {
+      const races = typedSeasonData?.MRData?.RaceTable?.Races || []
 
-  const seasonInfoResponse = await getSeasonInfo(year || 2021)
-  console.log(seasonInfoResponse)
-  const seasonInfo = (await seasonInfoResponse) as unknown as SeasonInfoData
-  return seasonInfo?.MRData?.RaceTable || {}
+      writeTackIds(races)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  return typedSeasonData?.MRData?.RaceTable || {}
 }
 
 export default function SeasonYear() {
