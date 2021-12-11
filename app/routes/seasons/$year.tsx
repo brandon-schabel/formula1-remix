@@ -1,6 +1,6 @@
 import { LoaderFunction, useLoaderData } from 'remix'
 import { getSeasonInfo } from '~/utils/getSeasonInfo'
-import { SeasonInfoData } from '~/types/SeasonInfoData'
+import { RaceTable, SeasonInfoData } from '~/types/SeasonInfoData'
 import { writeTackIds } from '~/utils/writeTrackIds'
 
 export let loader: LoaderFunction = async ({ params, request }) => {
@@ -8,32 +8,34 @@ export let loader: LoaderFunction = async ({ params, request }) => {
 
   const isDev = process.env.NODE_ENV === 'development'
 
-  if (isDev) {
-    try {
-      const seasonData = await getSeasonInfo(year || 2021)
-      console.log('season data', seasonData)
-      const typedSeasonData =
-        (await seasonData.json()) as unknown as SeasonInfoData
+  // if (isDev) {
+  //   try {
+  //     const seasonData = await getSeasonInfo(year || 2021)
+  //     console.log('season data', seasonData)
+  //     const typedSeasonData = (await seasonData) as unknown as SeasonInfoData
+  //
+  //     const races = typedSeasonData?.MRData?.RaceTable?.Races || []
+  //
+  //     writeTackIds(races)
+  //   } catch (e) {
+  //     console.error(e)
+  //   }
+  // }
 
-      const races = typedSeasonData?.MRData?.RaceTable?.Races || []
-
-      writeTackIds(races)
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
-  return getSeasonInfo(year || 2021)
+  const seasonInfoResponse = await getSeasonInfo(year || 2021)
+  console.log(seasonInfoResponse)
+  const seasonInfo = (await seasonInfoResponse) as unknown as SeasonInfoData
+  return seasonInfo?.MRData?.RaceTable || {}
 }
 
 export default function SeasonYear() {
-  const data = useLoaderData<SeasonInfoData>()
-  const year = data.MRData?.RaceTable?.season
+  const data = useLoaderData<RaceTable>()
+  const year = data?.season
 
   return (
     <div>
       Season Year {year}
-      {data?.MRData?.RaceTable?.Races?.map(race => {
+      {data?.Races?.map(race => {
         const raceTime = race.time
         const raceDate = race.date
         return (

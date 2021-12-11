@@ -10,3 +10,4 @@ api/build
 .idea
 .env
 .gitignore
+/.urlCache
