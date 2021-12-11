@@ -1,5 +1,5 @@
 import { Link, LoaderFunction, useLoaderData } from 'remix'
-import { getDriverLapData } from '../../../utils/getDriverLapData'
+import { getDriverLapData } from '~/utils/getDriverLapData'
 
 export let loader: LoaderFunction = async ({ params, request }) => {
   const result = await getDriverLapData({ year: 2011, round: 10, lap: 1 })

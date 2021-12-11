@@ -13,10 +13,6 @@ import {
   useLocation,
 } from 'remix'
 import type { LinksFunction } from 'remix'
-
-import deleteMeRemixStyles from '~/styles/demos/remix.css'
-import globalStylesUrl from '~/styles/global.css'
-import darkStylesUrl from '~/styles/dark.css'
 import { UserContextProvider } from '~/hooks/useUser'
 import appStyleUrl from '~/styles/app.css'
 
@@ -29,16 +25,7 @@ import appStyleUrl from '~/styles/app.css'
  * https://remix.run/api/app#links
  */
 export let links: LinksFunction = () => {
-  return [
-    { rel: 'stylesheet', href: globalStylesUrl },
-    {
-      rel: 'stylesheet',
-      href: darkStylesUrl,
-      media: '(prefers-color-scheme: dark)',
-    },
-    { rel: 'stylesheet', href: deleteMeRemixStyles },
-    { rel: 'stylesheet', href: appStyleUrl }
-  ]
+  return [{ rel: 'stylesheet', href: appStyleUrl }]
 }
 
 interface RootLoader {
@@ -115,28 +102,45 @@ function Document({
   )
 }
 
+const appLinks = [
+  {
+    link: '/circuits/lap-times',
+    name: 'Lap Times',
+  },
+  {
+    link: '/seasons',
+    name: 'Seasons',
+  },
+  {
+    link: '/constructors/teams',
+    name: 'Constructors',
+  },
+  { link: '/login', name: 'Login' },
+  { link: '/signup', name: 'Sign Up' },
+  { link: '/logout', name: 'Logout' },
+]
+
 function Layout({ children }: React.PropsWithChildren<{}>) {
   return (
-    <div className="remix-app">
-      <header className="remix-app__header">
-        <div className="container remix-app__header-content">
-          <Link to="/" title="Remix" className="remix-app__header-home-link">
+    <div>
+      <header>
+        <div className="flex flex-row">
+          <Link to="/" title="Remix">
             <RemixLogo />
           </Link>
-          <nav aria-label="Main navigation" className="remix-app__header-nav">
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <a href="https://remix.run/docs">Remix Docs</a>
-              </li>
-              <li>
-                <a href="https://github.com/remix-run/remix">GitHub</a>
-              </li>
+          <nav aria-label="Main navigation">
+            <ul className="flex flex-row">
+              {appLinks.map(currLink => {
+                return (
+                  <li className="px-2">
+                    <Link to={currLink.link}>{currLink.name}</Link>
+                  </li>
+                )
+              })}
             </ul>
           </nav>
         </div>
+        <hr />
       </header>
       <div className="remix-app__main">
         <div className="container remix-app__main-content">{children}</div>
