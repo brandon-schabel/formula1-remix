@@ -6,7 +6,7 @@ import { writeTackIds } from '~/utils/writeTrackIds'
 export let loader: LoaderFunction = async ({ params, request }) => {
   const { year } = params
 
-  const isDev = process.env.NODE_ENV || 'development'
+  const isDev = process.env.NODE_ENV === 'development'
 
   if (isDev) {
     try {
