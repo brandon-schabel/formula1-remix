@@ -2,6 +2,7 @@ import { LoaderFunction, useLoaderData } from 'remix'
 import { getDriverLapData } from '~/utils/getDriverLapData'
 import { FC } from 'react'
 import { useParams } from '@remix-run/react'
+import { CarIcon } from '~/components/CarIcon'
 
 export let loader: LoaderFunction = async ({ params, request }) => {
   const { year, round, driver, lap } = params
@@ -36,7 +37,16 @@ const DriverPlacementDiagram: FC<IDriverPlacementDiagram> = ({ position }) => {
     // @ts-ignore
     let isCurrBlockTheDriver = i + 1 === parseInt(position)
 
-    driverBlocks.push(<DriverBlock isDriver={isCurrBlockTheDriver} />)
+    driverBlocks.push(
+      <div
+        style={{
+          width: 50,
+          height: 50,
+        }}
+      >
+        <CarIcon color={isCurrBlockTheDriver ? 'green' : 'red'} />
+      </div>
+    )
   }
 
   return <div className="flex flex-row">{driverBlocks}</div>
