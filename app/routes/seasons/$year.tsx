@@ -28,12 +28,12 @@ export let loader: LoaderFunction = async ({ params, request }) => {
 
 export default function SeasonYear() {
   const data = useLoaderData<SeasonInfoData>()
-  const year = data.MRData.RaceTable.season
+  const year = data.MRData?.RaceTable?.season
 
   return (
     <div>
       Season Year {year}
-      {data.MRData.RaceTable.Races.map(race => {
+      {data?.MRData?.RaceTable?.Races?.map(race => {
         const raceTime = race.time
         const raceDate = race.date
         return (
