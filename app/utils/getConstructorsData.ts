@@ -1,5 +1,6 @@
 import { ERGAST_CONSTRUCTORS } from '../constants/urls'
 import { getUrlWithRoundAndYear } from './getUrlWithRoundAndYear'
+import { fetchWithCache } from '~/utils/localCacher'
 
 type ConstructorsOptions = {
   year?: number | string
@@ -12,6 +13,6 @@ export const getConstructorsData = async ({
 }: ConstructorsOptions) => {
   const url = getUrlWithRoundAndYear({ year, round })
 
-  console.log('Making request', url, year, round)
-  return fetch(url + ERGAST_CONSTRUCTORS)
+  // @ts-ignore
+  return fetchWithCache(url + ERGAST_CONSTRUCTORS)
 }

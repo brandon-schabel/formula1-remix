@@ -1,7 +1,9 @@
 import fs from 'fs'
 import fsPromise from 'fs/promises'
 
-function replaceAll(str: string, find: string, replace: string) {
+const isDev = process.env.NODE_ENV === 'development'
+
+export const replaceAll = (str: string, find: string, replace: string) => {
   return str.replace(new RegExp(find, 'g'), replace)
 }
 
@@ -31,13 +33,35 @@ export const localCacher = async (url: string) => {
   return JSON.parse(readFile)
 }
 
-export const writeCacheFile = (url: string, data: any) => {
+export const writeCacheFile = async (url: string, data: any) => {
   const file = getFileName(url)
 
-  console.log('writing cache file...', file)
   if (data) {
-    fs.writeFile(file, JSON.stringify(data), function (err) {
-      if (err) throw err
-    })
+    console.log('writing cache file...', file)
+    return await fsPromise.writeFile(file, JSON.stringify(data))
   }
+}
+
+// function used to locally cache API data to prevent as many API calls to Ergast
+// @ts-ignore
+export const fetchWithCache: Promise<Response> = async (
+  input: RequestInfo,
+  init?: RequestInit
+) => {
+  const fetchUrl = typeof input === 'string' ? input : input.url
+
+  if (isDev && fileExist(fetchUrl)) {
+    const cachedData = await localCacher(fetchUrl)
+    return cachedData
+  }
+
+  const fetchResult = await fetch(<Request | string>input, init)
+  const fetchData = await fetchResult.json()
+
+  if (isDev) {
+    console.log('writing file')
+    await writeCacheFile(fetchUrl, fetchData)
+  }
+
+  return fetchData
 }
