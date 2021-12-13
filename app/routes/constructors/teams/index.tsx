@@ -3,15 +3,12 @@ import { getLapData } from '~/utils/getLapData'
 
 export let loader: LoaderFunction = async ({ params, request }) => {
   const result = await getLapData({ year: 2011, round: 10, lap: 1 })
-  console.log('lap 1', result)
   return result
 }
 
 export default function TeamsIndex() {
   const data = useLoaderData()
-  console.log('data', data)
   const lapData = data.MRData.RaceTable.Races[0].Laps[0].Timings
-  console.log(lapData)
   const season = data.MRData.RaceTable.season
   const round = data.MRData.RaceTable.round
 

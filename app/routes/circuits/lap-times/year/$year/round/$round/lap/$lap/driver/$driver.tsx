@@ -2,11 +2,11 @@ import { LoaderFunction, useLoaderData } from 'remix'
 import { getLapData } from '~/utils/getLapData'
 import { FC } from 'react'
 import { CarIcon } from '~/components/CarIcon'
-import { DriverLapData, Lap } from '~/types/DriverLapData'
+import { DriverLapData, Lap, Timing } from '~/types/DriverLapData'
 
 export let loader: LoaderFunction = async ({ params, request }) => {
   const { year, round, driver, lap } = params
-  console.log(year, round, driver, lap)
+
   const result = await getLapData({
     year,
     round,
@@ -33,8 +33,6 @@ export const DriverPlacementDiagram: FC<IDriverPlacementDiagram> = ({
 }) => {
   const driverBlocks = []
 
-  // @ts-ignore
-  console.log(position, parseInt(position))
   for (let i = 0; i < 20; i++) {
     // @ts-ignore
     let isCurrBlockTheDriver = i + 1 === parseInt(position)
@@ -54,18 +52,39 @@ export const DriverPlacementDiagram: FC<IDriverPlacementDiagram> = ({
   return <div className="flex flex-row">{driverBlocks}</div>
 }
 
-export const RenderLap = ({ lapData }: { lapData: Lap }) => {
-  const driverLapData = lapData?.Timings?.[0] || {}
-  const { position } = driverLapData
-  return (
-    <div>
-      <p>Driver: {driverLapData.driverId}</p>
-      <p>Position: {position}</p>
-      <p>Driver: {driverLapData.time}</p>
-      <hr />
+export const RenderTimings: FC<{ timing: Timing }> = ({ timing }) => {
+  const position = parseInt(timing.position)
 
-      <DriverPlacementDiagram position={position || 100} />
+  return (
+    <div className={`${position == 1 ? 'bg-green-400' : ''}`}>
+      <p>Driver: {timing.driverId || ''}</p>
+      <p>Position: {position || ''}</p>
+      <p>Driver: {timing.time || ''}</p>
+      <hr />
+      {/*<DriverPlacementDiagram position={position || 100} />*/}
     </div>
+  )
+}
+
+export const RenderLap = ({ lapData }: { lapData: Lap }) => {
+  const timings = lapData.Timings
+
+  if (!timings) {
+    return null
+  }
+
+  const lapNumber = lapData.number
+
+  return (
+    <>
+      {lapNumber}
+      {timings.map((timing: Timing) => {
+        if (timing) {
+          return <RenderTimings timing={timing} />
+        }
+        return null
+      })}
+    </>
   )
 }
 

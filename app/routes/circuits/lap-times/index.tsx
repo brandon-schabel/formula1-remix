@@ -1,7 +1,6 @@
-import { ActionFunction, Form, Link, Outlet, redirect } from 'remix'
-import type { MetaFunction, LinksFunction } from 'remix'
+import { ActionFunction, Form, redirect } from 'remix'
+import type { MetaFunction } from 'remix'
 
-import stylesUrl from '~/styles/demos/about.css'
 
 export let meta: MetaFunction = () => {
   return {
@@ -29,7 +28,11 @@ export let action: ActionFunction = async ({ request }) => {
   const driver = body.get('driver') as string
 
   const selectedDriver = getDriver(driver)
-  let urlRedirect = `/circuits/lap-times/year/${year}/round/${round}/lap/${lap}`
+  let urlRedirect = `/circuits/lap-times/year/${year}/round/${round}`
+
+  if (lap) {
+    urlRedirect += `/lap/${lap}`
+  }
 
   if (driver) {
     urlRedirect = urlRedirect + `/driver/${selectedDriver}`

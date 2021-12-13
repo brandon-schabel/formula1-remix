@@ -34,8 +34,6 @@ export default function Index() {
   const { user, session } = useUser()
   const { id: userId } = useLoaderData() || {}
 
-  console.log('user', user, session)
-
   return (
     <div>
       <main>index </main>

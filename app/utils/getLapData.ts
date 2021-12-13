@@ -15,9 +15,11 @@ export const getLapData = async ({ year, round, driver, lap }: any) => {
     url += `/laps/${lap}`
   } else if (driver && !lap) {
     url += '/laps'
+  } else if (!driver && !lap) {
+    url += '/laps'
   }
 
-  url += '.json?limit=100'
+  url += '.json?limit=1000'
 
   // @ts-ignore
   return fetchWithCache(url)

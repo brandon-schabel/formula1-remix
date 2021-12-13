@@ -44,7 +44,6 @@ export default function ConstructorSeasonINdex() {
   const actionData = useActionData<ConstructorData>()
   const transition = useTransition()
   const test = useParams()
-  console.log(test)
 
   const selectedData = actionData ? actionData : data
 

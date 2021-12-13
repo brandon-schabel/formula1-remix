@@ -5,7 +5,6 @@ import { RenderLap } from '~/routes/circuits/lap-times/year/$year/round/$round/l
 
 export let loader: LoaderFunction = async ({ params, request }) => {
   const { year, round, driver } = params
-  console.log(year, round, driver)
   const result = await getLapData({
     year,
     round,
