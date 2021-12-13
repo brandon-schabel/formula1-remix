@@ -1,4 +1,4 @@
-import { ERGAST_CONSTRUCTORS } from '../constants/urls'
+import { ERGAST_CONSTRUCTORS } from '~/constants/urls'
 import { getUrlWithRoundAndYear } from './getUrlWithRoundAndYear'
 import { fetchWithCache } from '~/utils/localCacher'
 

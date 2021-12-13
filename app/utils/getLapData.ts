@@ -1,8 +1,9 @@
 import { getUrlWithRoundAndYear } from './getUrlWithRoundAndYear'
 import { fetchWithCache } from '~/utils/localCacher'
 
-export const getDriverLapData = async ({ year, round, driver, lap }: any) => {
+export const getLapData = async ({ year, round, driver, lap }: any) => {
   // http://ergast.com/api/f1/2011/5/drivers/alonso/laps/1
+  // http://ergast.com/api/f1/2021/22/drivers/max_verstappen/laps.json?limit=100 all laps for driver
   let url = getUrlWithRoundAndYear({ year, round })
 
   if (driver) {
@@ -12,10 +13,11 @@ export const getDriverLapData = async ({ year, round, driver, lap }: any) => {
 
   if (lap) {
     url += `/laps/${lap}`
+  } else if (driver && !lap) {
+    url += '/laps'
   }
 
-  url += '.json'
-
+  url += '.json?limit=100'
 
   // @ts-ignore
   return fetchWithCache(url)

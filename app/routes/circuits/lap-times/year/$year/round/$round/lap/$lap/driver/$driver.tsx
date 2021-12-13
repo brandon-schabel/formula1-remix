@@ -1,13 +1,13 @@
 import { LoaderFunction, useLoaderData } from 'remix'
-import { getDriverLapData } from '~/utils/getDriverLapData'
+import { getLapData } from '~/utils/getLapData'
 import { FC } from 'react'
-import { useParams } from '@remix-run/react'
 import { CarIcon } from '~/components/CarIcon'
+import { DriverLapData, Lap } from '~/types/DriverLapData'
 
 export let loader: LoaderFunction = async ({ params, request }) => {
   const { year, round, driver, lap } = params
   console.log(year, round, driver, lap)
-  const result = await getDriverLapData({
+  const result = await getLapData({
     year,
     round,
     lap,
@@ -18,7 +18,7 @@ export let loader: LoaderFunction = async ({ params, request }) => {
 }
 
 interface IDriverPlacementDiagram {
-  position: number
+  position: number | string
 }
 const DriverBlock: FC<{ isDriver: boolean }> = ({ isDriver }) => (
   <div
@@ -28,7 +28,9 @@ const DriverBlock: FC<{ isDriver: boolean }> = ({ isDriver }) => (
   />
 )
 
-const DriverPlacementDiagram: FC<IDriverPlacementDiagram> = ({ position }) => {
+export const DriverPlacementDiagram: FC<IDriverPlacementDiagram> = ({
+  position,
+}) => {
   const driverBlocks = []
 
   // @ts-ignore
@@ -52,25 +54,24 @@ const DriverPlacementDiagram: FC<IDriverPlacementDiagram> = ({ position }) => {
   return <div className="flex flex-row">{driverBlocks}</div>
 }
 
-const RenderLap = ({ lapData }: any) => {
+export const RenderLap = ({ lapData }: { lapData: Lap }) => {
+  const driverLapData = lapData?.Timings?.[0] || {}
+  const { position } = driverLapData
   return (
     <div>
-      <p>Driver: {lapData.driverId}</p>
-      <p>Position: {lapData.position}</p>
-      <p>Driver: {lapData.time}</p>
+      <p>Driver: {driverLapData.driverId}</p>
+      <p>Position: {position}</p>
+      <p>Driver: {driverLapData.time}</p>
       <hr />
 
-      <DriverPlacementDiagram position={lapData.position || 100} />
+      <DriverPlacementDiagram position={position || 100} />
     </div>
   )
 }
 
 export default function DriverLapTimeIndex() {
-  const data = useLoaderData()
-  const params = useParams()
-  console.log({ params })
-  console.log('data', data)
-  const lapData = data.MRData.RaceTable?.Races[0]?.Laps[0]?.Timings || []
+  const data = useLoaderData<DriverLapData>()
+  const lapData = data.MRData.RaceTable?.Races[0]?.Laps || []
   const season = data.MRData.RaceTable.season
   const round = data.MRData.RaceTable.round
 
@@ -82,7 +83,7 @@ export default function DriverLapTimeIndex() {
       <div>Season: {season}</div>
       <div>Round: {round}</div>
       <div>Circuit: {circuitName}</div>
-      {lapData?.map((lap: any) => {
+      {lapData?.map(lap => {
         return <RenderLap lapData={lap} />
       })}
     </div>

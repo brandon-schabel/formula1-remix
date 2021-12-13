@@ -19,6 +19,8 @@ const getDriver = (driver: string) => {
   return driverFromMap ? driverFromMap : driver
 }
 
+// http://ergast.com/api/f1/2021/22/drivers/max_verstappen/laps?limit=100
+
 export let action: ActionFunction = async ({ request }) => {
   let body = await request.formData()
   const year = body.get('year') as string
@@ -27,10 +29,13 @@ export let action: ActionFunction = async ({ request }) => {
   const driver = body.get('driver') as string
 
   const selectedDriver = getDriver(driver)
+  let urlRedirect = `/circuits/lap-times/year/${year}/round/${round}/lap/${lap}`
 
-  return redirect(
-    `/circuits/lap-times/year/${year}/round/${round}/lap/${lap}/driver/${selectedDriver}`
-  )
+  if (driver) {
+    urlRedirect = urlRedirect + `/driver/${selectedDriver}`
+  }
+
+  return redirect(urlRedirect)
 }
 
 export default function Index() {
