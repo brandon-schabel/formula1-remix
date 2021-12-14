@@ -1,9 +1,6 @@
 import { ERGAST_BASE_F1 } from '~/constants/urls'
 import {
   fetchWithCache,
-  fileExist,
-  localCacher,
-  writeCacheFile,
 } from '~/utils/localCacher'
 
 

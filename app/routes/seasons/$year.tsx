@@ -29,24 +29,29 @@ export default function SeasonYear() {
 
   return (
     <div>
-      Season Year {year}
-      {data?.Races?.map(race => {
-        const raceTime = race.time
-        const raceDate = race.date
-        return (
-          <div>
-            <p>Circuit Name{race.Circuit.circuitName}</p>
-            <p>
-              City:
-              {race.Circuit.Location.locality}
-            </p>
-            <p>
-              Race Time {raceTime} {raceDate}
-            </p>
-            <hr />
-          </div>
-        )
-      })}
+      <div className="w-full flex justify-center m-4">
+        <h1 className="text-3xl">{year} Season</h1>
+      </div>
+      <div className="flex flex-wrap">
+        {data?.Races?.map(race => {
+          const raceTime = race.time
+          const raceDate = race.date
+          return (
+            <div className="card bg-base-200 bordered m-2">
+              <div className="card-body">
+                <p>Circuit Name{race.Circuit.circuitName}</p>
+                <p>
+                  City:
+                  {race.Circuit.Location.locality}
+                </p>
+                <p>
+                  Race Time {raceTime} {raceDate}
+                </p>
+              </div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

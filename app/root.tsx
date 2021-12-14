@@ -124,7 +124,7 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
   return (
     <div>
       <header>
-        <div className="flex flex-row">
+        <div className="navbar">
           <Link to="/" title="Remix">
             <RemixLogo />
           </Link>
@@ -142,12 +142,10 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
         </div>
         <hr />
       </header>
-      <div className="remix-app__main">
-        <div className="container remix-app__main-content">{children}</div>
-      </div>
-      <footer className="remix-app__footer">
-        <div className="container remix-app__footer-content">
-          <p>&copy; You!</p>
+      <div>{children}</div>
+      <footer className="footer w-full flex justify-center">
+        <div>
+          <p>&copy; {new Date().getFullYear()} Brandon Schabel</p>
         </div>
       </footer>
     </div>
