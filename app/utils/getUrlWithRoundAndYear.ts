@@ -1,4 +1,4 @@
-import { ERGAST_BASE_F1 } from '../constants/urls'
+import { ERGAST_BASE_F1 } from '~/constants/urls'
 
 type RoundAndYearOptions = {
   year?: number | string

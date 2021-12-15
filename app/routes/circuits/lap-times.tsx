@@ -31,8 +31,6 @@ export let action: ActionFunction = async ({ request }) => {
     urlRedirect = urlRedirect + `/driver/${selectedDriver}`
   }
 
-  console.log('redirecting', urlRedirect)
-
   return redirect(urlRedirect)
 }
 

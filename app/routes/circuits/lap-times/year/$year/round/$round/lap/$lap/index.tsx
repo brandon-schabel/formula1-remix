@@ -4,12 +4,9 @@ import { AllLapData } from '~/types/AllLapData'
 import { Lap } from '~/types/DriverLapData'
 import { RenderLap } from '~/components/RenderLapTimes'
 import { TrackInfo } from '~/components/TrackInfo'
-import LapTimeSearch from '~/components/LapTimeSearch'
 
 export let loader: LoaderFunction = async ({ params, request }) => {
   const { year, round, lap } = params
-
-  console.log('got here')
 
   const result = await getLapData({
     year,

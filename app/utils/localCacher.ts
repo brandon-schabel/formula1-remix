@@ -44,7 +44,7 @@ export const writeCacheFile = async (url: string, data: any) => {
 
 // function used to locally cache API data to prevent as many API calls to Ergast
 // @ts-ignore
-export const fetchWithCache: Promise<Response> = async (
+export const fetchWithCache: Promise<Response> = async <ReturnData>(
   input: RequestInfo,
   init?: RequestInit
 ) => {
@@ -63,5 +63,5 @@ export const fetchWithCache: Promise<Response> = async (
     await writeCacheFile(fetchUrl, fetchData)
   }
 
-  return fetchData
+  return fetchData as ReturnData
 }
