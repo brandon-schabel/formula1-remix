@@ -1,15 +1,6 @@
 import LapTimeSearch from '~/components/LapTimeSearch'
-import { ActionFunction, redirect, Outlet } from 'remix'
-
-const driverMap: Record<string, string> = {
-  max: 'max_verstappen',
-}
-
-const getDriver = (driver: string) => {
-  const driverFromMap = driverMap[driver]
-
-  return driverFromMap ? driverFromMap : driver
-}
+import { ActionFunction, Outlet, redirect } from 'remix'
+import { getDriver } from '~/utils/getDriver'
 
 // http://ergast.com/api/f1/2021/22/drivers/max_verstappen/laps?limit=100
 

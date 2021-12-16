@@ -4,15 +4,8 @@ import { DriverLapData } from '~/types/DriverLapData'
 import { RenderLap } from '~/components/RenderLapTimes'
 import { TrackInfo } from '~/components/TrackInfo'
 
-export let loader: LoaderFunction = async ({ params, request }) => {
-  const { year, round, driver } = params
-  const result = await getLapData({
-    year,
-    round,
-    driver,
-  })
-
-  return result
+export let loader: LoaderFunction = async ({ params }) => {
+  return getLapData(params)
 }
 
 export default function DriverLapTimeIndex() {

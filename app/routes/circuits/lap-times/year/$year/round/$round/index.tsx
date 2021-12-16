@@ -5,14 +5,7 @@ import { TrackInfo } from '~/components/TrackInfo'
 import { RenderLap } from '~/components/RenderLapTimes'
 
 export let loader: LoaderFunction = async ({ params, request }) => {
-  const { year, round } = params
-
-  const result = await getLapData({
-    year,
-    round,
-  })
-
-  return result
+  return getLapData(params)
 }
 
 export default function DriverLapTimeIndex() {

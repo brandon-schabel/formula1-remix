@@ -1,5 +1,5 @@
 import { ERGAST_CONSTRUCTORS } from '~/constants/urls'
-import { getUrlWithRoundAndYear } from './getUrlWithRoundAndYear'
+import { getUrlWithRoundYearDriver } from './getUrlWithRoundYearDriver'
 import { fetchWithCache } from '~/utils/localCacher'
 
 type ConstructorsOptions = {
@@ -11,7 +11,7 @@ export const getConstructorsData = async ({
   year,
   round,
 }: ConstructorsOptions) => {
-  const url = getUrlWithRoundAndYear({ year, round })
+  const url = getUrlWithRoundYearDriver({ year, round })
 
   // @ts-ignore
   return fetchWithCache(url + ERGAST_CONSTRUCTORS)

@@ -115,6 +115,7 @@ const appLinks = [
     link: '/constructors/teams',
     name: 'Constructors',
   },
+  { link: '/pitstops', name: 'Pitstops' },
   { link: '/login', name: 'Login' },
   { link: '/signup', name: 'Sign Up' },
   { link: '/logout', name: 'Logout' },

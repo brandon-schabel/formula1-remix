@@ -1,5 +1,5 @@
 import type { MetaFunction, LoaderFunction } from 'remix'
-import { useLoaderData, json, Link } from 'remix'
+import { useLoaderData, Link } from 'remix'
 import { getLoggedInUser } from '~/sessions.server'
 import { supabase } from '~/supabase'
 import { useUser } from '~/hooks/useUser'

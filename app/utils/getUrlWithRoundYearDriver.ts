@@ -3,12 +3,14 @@ import { ERGAST_BASE_F1 } from '~/constants/urls'
 type RoundAndYearOptions = {
   year?: number | string
   round?: number | string
+  driver?: string
   url?: string
 }
 
-export const getUrlWithRoundAndYear = ({
+export const getUrlWithRoundYearDriver = ({
   year,
   round,
+  driver,
   url = ERGAST_BASE_F1,
 }: RoundAndYearOptions) => {
   let returnUrl = url
@@ -19,6 +21,10 @@ export const getUrlWithRoundAndYear = ({
 
   if (year && !round) {
     returnUrl = url + `/${year}`
+  }
+
+  if (driver) {
+    returnUrl += `/drivers/${driver}`
   }
 
   return returnUrl

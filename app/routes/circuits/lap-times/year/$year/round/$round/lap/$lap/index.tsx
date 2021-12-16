@@ -6,15 +6,7 @@ import { RenderLap } from '~/components/RenderLapTimes'
 import { TrackInfo } from '~/components/TrackInfo'
 
 export let loader: LoaderFunction = async ({ params, request }) => {
-  const { year, round, lap } = params
-
-  const result = await getLapData({
-    year,
-    round,
-    lap,
-  })
-
-  return result
+  return getLapData(params)
 }
 
 export default function CircuitLapTimeIndex() {
