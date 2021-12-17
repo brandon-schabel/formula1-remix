@@ -109,7 +109,7 @@ create table api_cache (
   id serial,
   data jsonb,
   url text unique,
-  created_at timestamp with time zone,
+  created_at timestamp with time zone default now(),
 
   primary key (id, url)
 );
