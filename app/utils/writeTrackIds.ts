@@ -4,7 +4,7 @@ import { Race } from '~/types/SeasonInfoData'
 export const writeTackIds = (races: Race[]) => {
   const dir = __dirname.replace('api/build', '')
   const file = dir + 'app/constants/trackIds.json'
-  console.log('reading file..', file)
+
   fs.readFile(file, function (err, content) {
     if (err) throw err
     // @ts-ignore

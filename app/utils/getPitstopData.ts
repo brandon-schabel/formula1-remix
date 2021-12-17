@@ -8,6 +8,5 @@ export const getPitstopData = async ({ year, round, driver }: any) => {
 
   url += `/pitstops.json`
 
-  // @ts-ignore
   return fetchWithCache(url)
 }

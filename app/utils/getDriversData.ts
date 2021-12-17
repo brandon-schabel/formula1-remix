@@ -10,6 +10,5 @@ type DriversOptions = {
 export const getDriversData = async ({ year, round }: DriversOptions) => {
   const url = getUrlWithRoundYearDriver({ year, round })
 
-  // @ts-ignore
   return fetchWithCache(url + ERGAST_DRIVERS)
 }

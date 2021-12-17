@@ -102,5 +102,19 @@ create trigger on_auth_user_created
   for each row execute procedure public.handle_new_user();
 ```
 
+Create API Cache Table
+
+```
+create table api_cache (
+  id serial,
+  data jsonb,
+  url text unique,
+  created_at timestamp with time zone,
+
+  primary key (id, url)
+);
+```
+
 ### ENV Setup
-Create an .env file based on the .env.example file and enter credentials 
+
+Create an .env file based on the .env.example file and enter credentials

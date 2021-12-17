@@ -8,6 +8,5 @@ import {
 export const getSeasonInfo = async (year: number | string) => {
   const url = `${ERGAST_BASE_F1}/${year}.json`
 
-  // @ts-ignore
   return fetchWithCache(url)
 }

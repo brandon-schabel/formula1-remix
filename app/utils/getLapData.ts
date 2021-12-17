@@ -21,6 +21,5 @@ export const getLapData = async ({ year, round, driver, lap }: any) => {
 
   url += '.json?limit=1000'
 
-  // @ts-ignore
   return fetchWithCache(url)
 }

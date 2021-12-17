@@ -13,6 +13,5 @@ export const getConstructorsData = async ({
 }: ConstructorsOptions) => {
   const url = getUrlWithRoundYearDriver({ year, round })
 
-  // @ts-ignore
   return fetchWithCache(url + ERGAST_CONSTRUCTORS)
 }
